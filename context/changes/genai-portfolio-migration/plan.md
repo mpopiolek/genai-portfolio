@@ -843,25 +843,25 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 7.1 Docker compose run exits 0
-- [x] 7.2 Secret scan clean
+- [x] 7.1 Docker compose run exits 0 — cb38c1b
+- [x] 7.2 Secret scan clean — cb38c1b
 
 #### Manual
 
-- [x] 7.3 ETL output demonstrable with sample input files
-- [x] 7.4 Bilingual README complete
+- [x] 7.3 ETL output demonstrable with sample input files — cb38c1b
+- [x] 7.4 Bilingual README complete — cb38c1b
 
 ### Phase 8: Shell Exploration Agent
 
 #### Automated
 
-- [ ] 8.1 Docker compose run exits 0 in sandboxed container
-- [ ] 8.2 Secret scan clean
+- [x] 8.1 Docker compose run exits 0 in sandboxed container — 725ca43
+- [x] 8.2 Secret scan clean — 725ca43
 
 #### Manual
 
-- [ ] 8.3 README guardrails/warning sections present EN + PL
-- [ ] 8.4 Blacklist blocks dangerous commands in demo
+- [x] 8.3 README guardrails/warning sections present EN + PL — 725ca43
+- [x] 8.4 Blacklist blocks dangerous commands in demo — 725ca43
 
 ### Phase 9: Secure Command Agent
 
