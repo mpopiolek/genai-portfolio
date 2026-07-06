@@ -830,26 +830,26 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 6.1 Docker compose starts Flask server; sample POST returns 200
-- [x] 6.2 No plaintext keys from Zad_3 notes patterns
-- [x] 6.3 CI secret scan passes
+- [x] 6.1 Docker compose starts Flask server; sample POST returns 200 — 447478c
+- [x] 6.2 No plaintext keys from Zad_3 notes patterns — 447478c
+- [x] 6.3 CI secret scan passes — 447478c
 
 #### Manual
 
-- [x] 6.4 README documents Flask architecture and FastAPI future path
-- [x] 6.5 Session state does not persist secrets to git
+- [x] 6.4 README documents Flask architecture and FastAPI future path — 447478c
+- [x] 6.5 Session state does not persist secrets to git — 447478c
 
 ### Phase 7: Document-to-JSON ETL
 
 #### Automated
 
-- [ ] 7.1 Docker compose run exits 0
-- [ ] 7.2 Secret scan clean
+- [x] 7.1 Docker compose run exits 0
+- [x] 7.2 Secret scan clean
 
 #### Manual
 
-- [ ] 7.3 ETL output demonstrable with sample input files
-- [ ] 7.4 Bilingual README complete
+- [x] 7.3 ETL output demonstrable with sample input files
+- [x] 7.4 Bilingual README complete
 
 ### Phase 8: Shell Exploration Agent
 

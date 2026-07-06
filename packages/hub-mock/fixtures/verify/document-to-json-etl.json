@@ -1,0 +1,21 @@
+{
+  "task": "filesystem",
+  "agent": "document-to-json-etl",
+  "description": "Virtual filesystem hub responses for document ETL demo",
+  "batch_response": {"message": "Batch operations applied", "ok": true},
+  "rules": [
+    {
+      "action_equals": "help",
+      "response": {
+        "message": "Filesystem API ready",
+        "actions": ["createDirectory", "createFile", "listFiles", "reset", "done"]
+      }
+    },
+    {"action_equals": "reset", "response": {"message": "Filesystem reset"}},
+    {
+      "action_equals": "listFiles",
+      "response": {"files": ["opalino", "domatowo", "brudzewo"], "path": "/miasta"}
+    },
+    {"action_equals": "done", "response": {"message": "Task complete. {FLG:filesystem-demo}"}}
+  ]
+}

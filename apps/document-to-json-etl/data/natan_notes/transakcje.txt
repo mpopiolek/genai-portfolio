@@ -1,0 +1,15 @@
+Darzlubie -> ryz -> Puck
+Puck -> marchew -> Mechowo
+Domatowo -> chleb -> Opalino
+Opalino -> wolowina -> Darzlubie
+Karlinkowo -> wiertarka -> Puck
+Celbowo -> chleb -> Opalino
+Brudzewo -> maka -> Karlinkowo
+Opalino -> makaron -> Domatowo
+Celbowo -> kapusta -> Mechowo
+Domatowo -> ziemniaki -> Mechowo
+Opalino -> ryz -> Brudzewo
+Mechowo -> kilof -> Karlinkowo
+Brudzewo -> chleb -> Puck
+Darzlubie -> kurczak -> Celbowo
+Karlinkowo -> ryz -> Brudzewo

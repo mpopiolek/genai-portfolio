@@ -72,6 +72,12 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
     logs_text = answer.get("logs", "")
     search_text = logs_text if logs_text else prompt
 
+    if isinstance(answer, list):
+        batch_response = fixture.get("batch_response")
+        if batch_response:
+            return batch_response
+        return {"message": "Batch operations applied", "ok": True}
+
     if prompt.strip().lower() == "reset":
         _classify_counters[task] = 0
         for rule in fixture.get("rules", []):
@@ -83,6 +89,11 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
     for rule in fixture.get("rules", []):
         if rule.get("prompt_equals") == "reset":
             continue
+
+        action_eq = rule.get("action_equals")
+        if action_eq and isinstance(answer, dict) and answer.get("action") == action_eq:
+            matched_rule = rule
+            break
 
         logs_all = rule.get("logs_contains_all", [])
         if logs_all and all(item.lower() in search_text.lower() for item in logs_all):
