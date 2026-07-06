@@ -1,0 +1,13 @@
+{
+  "task": "categorize",
+  "agent": "prompt-optimization-loop",
+  "description": "Rule-based classify responses for 10-item CSV demo cycle",
+  "rules": [
+    {"prompt_equals": "reset", "response": {"message": "Counter reset"}},
+    {"prompt_contains_any": ["flamethrower", "rifle", "Spearhead", "Hatchet", "sniper"], "response": {"message": "DNG"}},
+    {"prompt_contains": "Reactor", "response": {"message": "NEU"}},
+    {"prompt_default": true, "response": {"message": "NEU"}}
+  ],
+  "flag_after_classifications": 10,
+  "flag_response": {"message": "All items correct. {FLG:categorize-demo}"}
+}

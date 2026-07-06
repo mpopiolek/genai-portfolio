@@ -787,31 +787,31 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 3.1 `docker compose -f apps/voice-ops-agent/docker-compose.yml config` validates
-- [x] 3.2 Hub smoke: docker compose reaches start_session without course keys
-- [x] 3.3 Secret grep clean on `apps/voice-ops-agent/`
-- [x] 3.4 `turbo run lint --filter=voice-ops-agent` passes
-- [x] 3.5 CI gitleaks scan passes with voice-ops-agent added
+- [x] 3.1 `docker compose -f apps/voice-ops-agent/docker-compose.yml config` validates — 256b3d7
+- [x] 3.2 Hub smoke: docker compose reaches start_session without course keys — 256b3d7
+- [x] 3.3 Secret grep clean on `apps/voice-ops-agent/` — 256b3d7
+- [x] 3.4 `turbo run lint --filter=voice-ops-agent` passes — 256b3d7
+- [x] 3.5 CI gitleaks scan passes with voice-ops-agent added — 256b3d7
 
 #### Manual
 
-- [x] 3.6 README readable under 5 minutes; EN and PL sections present
-- [x] 3.7 README documents OPENROUTER_API_KEY + hub-mock requirement
-- [x] 3.8 Full demo: 4-step dialog with OpenRouter configured; flag detected
-- [x] 3.9 No `.env`, `*.log`, or `audio_logs/` committed
+- [x] 3.6 README readable under 5 minutes; EN and PL sections present — 256b3d7
+- [x] 3.7 README documents OPENROUTER_API_KEY + hub-mock requirement — 256b3d7
+- [x] 3.8 Full demo: 4-step dialog with OpenRouter configured; flag detected — 256b3d7
+- [x] 3.9 No `.env`, `*.log`, or `audio_logs/` committed — 256b3d7
 
 ### Phase 4: Prompt Optimization Loop
 
 #### Automated
 
-- [ ] 4.1 Docker compose run exits 0
-- [ ] 4.2 Secret scan clean on `apps/prompt-optimization-loop/`
-- [ ] 4.3 Lint passes
+- [x] 4.1 Docker compose run exits 0
+- [x] 4.2 Secret scan clean on `apps/prompt-optimization-loop/`
+- [x] 4.3 Lint passes
 
 #### Manual
 
-- [ ] 4.4 README explains prompt optimization loop with sample CSV
-- [ ] 4.5 Bilingual EN/PL sections present
+- [x] 4.4 README explains prompt optimization loop with sample CSV
+- [x] 4.5 Bilingual EN/PL sections present
 
 ### Phase 5: Log Triage Agent
 

@@ -14,6 +14,8 @@ PORT = int(os.getenv("HUB_MOCK_PORT", "8080"))
 
 # Per-task turn counter for sequential dialog fixtures
 _turn_counters: dict[str, int] = {}
+# Per-task classification count since last reset (rule-based fixtures)
+_classify_counters: dict[str, int] = {}
 
 
 def _load_fixtures() -> dict[str, dict[str, Any]]:
@@ -60,11 +62,49 @@ def _match_request(body: dict[str, Any], pattern: dict[str, Any]) -> bool:
     return True
 
 
+def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
+    """Match prompt-based rules for tasks like categorize."""
+    task = body.get("task", "")
+    answer = body.get("answer", {})
+    prompt = answer.get("prompt", "") if isinstance(answer, dict) else ""
+
+    if prompt.strip().lower() == "reset":
+        _classify_counters[task] = 0
+        for rule in fixture.get("rules", []):
+            if rule.get("prompt_equals") == "reset":
+                return rule.get("response", {"message": "Counter reset"})
+        return {"message": "Counter reset"}
+
+    for rule in fixture.get("rules", []):
+        if rule.get("prompt_equals") == "reset":
+            continue
+        contains = rule.get("prompt_contains")
+        if contains and contains.lower() in prompt.lower():
+            break
+        contains_any = rule.get("prompt_contains_any", [])
+        if contains_any and any(c.lower() in prompt.lower() for c in contains_any):
+            break
+        if rule.get("prompt_default"):
+            break
+    else:
+        return fixture.get("default_response", {"message": "NEU"})
+
+    response = rule.get("response", {"message": "NEU"})
+    _classify_counters[task] = _classify_counters.get(task, 0) + 1
+    threshold = fixture.get("flag_after_classifications", 10)
+    if _classify_counters[task] >= threshold:
+        return fixture.get("flag_response", {"message": "All correct {FLG:categorize-demo}"})
+    return response
+
+
 def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
     task = body.get("task", "")
     fixture = FIXTURES_BY_TASK.get(task)
     if not fixture:
         return {"error": f"No fixture for task '{task}'", "code": 404}
+
+    if fixture.get("rules"):
+        return _resolve_rule_based(body, fixture)
 
     turns: list[dict[str, Any]] = fixture.get("turns", [])
     if not turns:
