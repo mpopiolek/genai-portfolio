@@ -1,0 +1,21 @@
+services:
+  hub-mock:
+    build: ../../packages/hub-mock
+    ports:
+      - "8080:8080"
+    environment:
+      HUB_MOCK_PORT: "8080"
+
+  voice-ops-agent:
+    build: .
+    depends_on:
+      - hub-mock
+    environment:
+      AIDEVS_API_URL: http://hub-mock:8080
+      AIDEVS_API_KEY: ${AIDEVS_API_KEY:-demo-key}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_API_URL: ${OPENROUTER_API_URL:-https://openrouter.ai/api/v1}
+      TASK_PASSWORD: ${TASK_PASSWORD:-demo-password}
+    env_file:
+      - path: .env
+        required: false

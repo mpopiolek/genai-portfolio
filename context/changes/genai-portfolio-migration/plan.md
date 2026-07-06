@@ -774,31 +774,31 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 2.1 `docker compose -f packages/hub-mock/docker-compose.yml config` validates
-- [x] 2.2 `curl` POST to `/verify` with start payload returns expected JSON
-- [x] 2.3 `turbo run build --filter=hub-mock` succeeds
+- [x] 2.1 `docker compose -f packages/hub-mock/docker-compose.yml config` validates — 780f0bf
+- [x] 2.2 `curl` POST to `/verify` with start payload returns expected JSON — 780f0bf
+- [x] 2.3 `turbo run build --filter=hub-mock` succeeds — 780f0bf
 
 #### Manual
 
-- [x] 2.4 Fixture README explains fixture authoring for remaining agents
-- [x] 2.5 Mock server responds to 3+ sequential turns without error
+- [x] 2.4 Fixture README explains fixture authoring for remaining agents — 780f0bf
+- [x] 2.5 Mock server responds to 3+ sequential turns without error — 780f0bf
 
 ### Phase 3: Voice Ops Agent (Flagship)
 
 #### Automated
 
-- [ ] 3.1 `docker compose -f apps/voice-ops-agent/docker-compose.yml config` validates
-- [ ] 3.2 Hub smoke: docker compose reaches start_session without course keys
-- [ ] 3.3 Secret grep clean on `apps/voice-ops-agent/`
-- [ ] 3.4 `turbo run lint --filter=voice-ops-agent` passes
-- [ ] 3.5 CI gitleaks scan passes with voice-ops-agent added
+- [x] 3.1 `docker compose -f apps/voice-ops-agent/docker-compose.yml config` validates
+- [x] 3.2 Hub smoke: docker compose reaches start_session without course keys
+- [x] 3.3 Secret grep clean on `apps/voice-ops-agent/`
+- [x] 3.4 `turbo run lint --filter=voice-ops-agent` passes
+- [x] 3.5 CI gitleaks scan passes with voice-ops-agent added
 
 #### Manual
 
-- [ ] 3.6 README readable under 5 minutes; EN and PL sections present
-- [ ] 3.7 README documents OPENROUTER_API_KEY + hub-mock requirement
-- [ ] 3.8 Full demo: 4-step dialog with OpenRouter configured; flag detected
-- [ ] 3.9 No `.env`, `*.log`, or `audio_logs/` committed
+- [x] 3.6 README readable under 5 minutes; EN and PL sections present
+- [x] 3.7 README documents OPENROUTER_API_KEY + hub-mock requirement
+- [x] 3.8 Full demo: 4-step dialog with OpenRouter configured; flag detected
+- [x] 3.9 No `.env`, `*.log`, or `audio_logs/` committed
 
 ### Phase 4: Prompt Optimization Loop
 
