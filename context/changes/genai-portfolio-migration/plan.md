@@ -760,28 +760,28 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 1.1 `npm install` completes without workspace resolution errors
-- [x] 1.2 `turbo run lint` exits 0
-- [x] 1.3 Pre-commit install succeeds: `pre-commit run --all-files` passes on clean repo
-- [x] 1.4 CI workflow YAML validates (no syntax errors)
+- [x] 1.1 `npm install` completes without workspace resolution errors — b757a78
+- [x] 1.2 `turbo run lint` exits 0 — b757a78
+- [x] 1.3 Pre-commit install succeeds: `pre-commit run --all-files` passes on clean repo — b757a78
+- [x] 1.4 CI workflow YAML validates (no syntax errors) — b757a78
 
 #### Manual
 
-- [x] 1.5 No `apps/web`, `apps/docs`, or `@repo/ui` references remain
-- [x] 1.6 `.gitignore` covers Python patterns
+- [x] 1.5 No `apps/web`, `apps/docs`, or `@repo/ui` references remain — b757a78
+- [x] 1.6 `.gitignore` covers Python patterns — b757a78
 
 ### Phase 2: Shared Hub Mock Infrastructure
 
 #### Automated
 
-- [ ] 2.1 `docker compose -f packages/hub-mock/docker-compose.yml config` validates
-- [ ] 2.2 `curl` POST to `/verify` with start payload returns expected JSON
-- [ ] 2.3 `turbo run build --filter=hub-mock` succeeds
+- [x] 2.1 `docker compose -f packages/hub-mock/docker-compose.yml config` validates
+- [x] 2.2 `curl` POST to `/verify` with start payload returns expected JSON
+- [x] 2.3 `turbo run build --filter=hub-mock` succeeds
 
 #### Manual
 
-- [ ] 2.4 Fixture README explains fixture authoring for remaining agents
-- [ ] 2.5 Mock server responds to 3+ sequential turns without error
+- [x] 2.4 Fixture README explains fixture authoring for remaining agents
+- [x] 2.5 Mock server responds to 3+ sequential turns without error
 
 ### Phase 3: Voice Ops Agent (Flagship)
 

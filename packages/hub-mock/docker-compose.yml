@@ -1,0 +1,7 @@
+services:
+  hub-mock:
+    build: .
+    ports:
+      - "${HUB_MOCK_PORT:-8080}:8080"
+    environment:
+      HUB_MOCK_PORT: "8080"

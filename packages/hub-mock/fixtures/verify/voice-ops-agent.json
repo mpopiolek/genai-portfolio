@@ -1,0 +1,37 @@
+{
+  "task": "phonecall",
+  "agent": "voice-ops-agent",
+  "description": "4-step voice dialog: start → greeting/password → road status → monitoring disable → flag",
+  "turns": [
+    {
+      "request_match": { "answer": { "action": "start" } },
+      "response": {
+        "message": "Centrala monitoringu dróg, słucham."
+      }
+    },
+    {
+      "request_match": { "answer": { "audio": "*" } },
+      "response": {
+        "message": "Proszę podać hasło dostępu dla weryfikacji tożsamości."
+      }
+    },
+    {
+      "request_match": { "answer": { "audio": "*" } },
+      "response": {
+        "message": "Dziękuję. Potwierdzam tożsamość. W czym mogę pomóc?"
+      }
+    },
+    {
+      "request_match": { "answer": { "audio": "*" } },
+      "response": {
+        "message": "Sprawdzam status dróg. RD224 i RD820 są zamknięte z powodu prac remontowych. RD472 jest w pełni przejezdna."
+      }
+    },
+    {
+      "request_match": { "answer": { "audio": "*" } },
+      "response": {
+        "message": "Monitoring wyłączony na wskazanych drogach. {FLG:voice-ops-demo}"
+      }
+    }
+  ]
+}
