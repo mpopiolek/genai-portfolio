@@ -1,0 +1,37 @@
+{
+  "task": "shellaccess",
+  "agent": "shell-exploration-agent",
+  "description": "Mock shell server responses for portfolio demo",
+  "rules": [
+    {
+      "cmd_contains": "ls",
+      "response": {
+        "output": "gps.json  locations.json  notes.txt"
+      }
+    },
+    {
+      "cmd_contains": "grep",
+      "response": {
+        "output": "2024-03-18: body found in Krakow sector. See gps.json for coordinates."
+      }
+    },
+    {
+      "cmd_contains": "gps.json",
+      "response": {
+        "output": "{\"city\":\"Krakow\",\"latitude\":50.0647,\"longitude\":19.9450}"
+      }
+    },
+    {
+      "cmd_contains": "echo",
+      "response": {
+        "output": "Answer accepted. {FLG:shell-demo}"
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "output": "command executed (mock)"
+      }
+    }
+  ]
+}

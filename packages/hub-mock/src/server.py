@@ -72,6 +72,10 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
     logs_text = answer.get("logs", "")
     search_text = logs_text if logs_text else prompt
 
+    cmd_text = answer.get("cmd", "") if isinstance(answer, dict) else ""
+    if cmd_text:
+        search_text = cmd_text
+
     if isinstance(answer, list):
         batch_response = fixture.get("batch_response")
         if batch_response:
@@ -95,6 +99,11 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
             matched_rule = rule
             break
 
+        cmd_contains = rule.get("cmd_contains")
+        if cmd_contains and cmd_contains.lower() in search_text.lower():
+            matched_rule = rule
+            break
+
         logs_all = rule.get("logs_contains_all", [])
         if logs_all and all(item.lower() in search_text.lower() for item in logs_all):
             matched_rule = rule
@@ -115,7 +124,7 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
             matched_rule = rule
             break
 
-        if rule.get("prompt_default") or rule.get("logs_default"):
+        if rule.get("prompt_default") or rule.get("logs_default") or rule.get("body_default"):
             matched_rule = rule
             break
 
