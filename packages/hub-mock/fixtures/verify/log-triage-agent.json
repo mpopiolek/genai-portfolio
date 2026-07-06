@@ -1,0 +1,17 @@
+{
+  "task": "failure",
+  "agent": "log-triage-agent",
+  "description": "Hub feedback for condensed failure log submissions",
+  "rules": [
+    {
+      "logs_contains_all": ["WTRPMP", "ECCS8"],
+      "response": {"message": "Root cause narrative accepted. {FLG:failure-demo}"}
+    },
+    {
+      "logs_default": true,
+      "response": {
+        "message": "Feedback: include WTRPMP pump cascade and ECCS8 cooling trip entries, then resubmit."
+      }
+    }
+  ]
+}

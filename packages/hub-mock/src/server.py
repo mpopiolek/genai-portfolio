@@ -63,10 +63,14 @@ def _match_request(body: dict[str, Any], pattern: dict[str, Any]) -> bool:
 
 
 def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
-    """Match prompt-based rules for tasks like categorize."""
+    """Match prompt- or logs-based rules for tasks like categorize and failure."""
     task = body.get("task", "")
     answer = body.get("answer", {})
-    prompt = answer.get("prompt", "") if isinstance(answer, dict) else ""
+    if not isinstance(answer, dict):
+        answer = {}
+    prompt = answer.get("prompt", "")
+    logs_text = answer.get("logs", "")
+    search_text = logs_text if logs_text else prompt
 
     if prompt.strip().lower() == "reset":
         _classify_counters[task] = 0
@@ -75,25 +79,44 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
                 return rule.get("response", {"message": "Counter reset"})
         return {"message": "Counter reset"}
 
+    matched_rule: dict[str, Any] | None = None
     for rule in fixture.get("rules", []):
         if rule.get("prompt_equals") == "reset":
             continue
-        contains = rule.get("prompt_contains")
-        if contains and contains.lower() in prompt.lower():
-            break
-        contains_any = rule.get("prompt_contains_any", [])
-        if contains_any and any(c.lower() in prompt.lower() for c in contains_any):
-            break
-        if rule.get("prompt_default"):
-            break
-    else:
-        return fixture.get("default_response", {"message": "NEU"})
 
-    response = rule.get("response", {"message": "NEU"})
-    _classify_counters[task] = _classify_counters.get(task, 0) + 1
-    threshold = fixture.get("flag_after_classifications", 10)
-    if _classify_counters[task] >= threshold:
-        return fixture.get("flag_response", {"message": "All correct {FLG:categorize-demo}"})
+        logs_all = rule.get("logs_contains_all", [])
+        if logs_all and all(item.lower() in search_text.lower() for item in logs_all):
+            matched_rule = rule
+            break
+
+        logs_any = rule.get("logs_contains_any", [])
+        if logs_any and any(item.lower() in search_text.lower() for item in logs_any):
+            matched_rule = rule
+            break
+
+        contains = rule.get("prompt_contains")
+        if contains and contains.lower() in search_text.lower():
+            matched_rule = rule
+            break
+
+        contains_any = rule.get("prompt_contains_any", [])
+        if contains_any and any(item.lower() in search_text.lower() for item in contains_any):
+            matched_rule = rule
+            break
+
+        if rule.get("prompt_default") or rule.get("logs_default"):
+            matched_rule = rule
+            break
+
+    if not matched_rule:
+        return fixture.get("default_response", {"message": "No matching rule"})
+
+    response = matched_rule.get("response", {"message": "OK"})
+    threshold = fixture.get("flag_after_classifications")
+    if threshold:
+        _classify_counters[task] = _classify_counters.get(task, 0) + 1
+        if _classify_counters[task] >= threshold:
+            return fixture.get("flag_response", response)
     return response
 
 

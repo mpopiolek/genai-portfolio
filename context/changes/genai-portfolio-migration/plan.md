@@ -804,27 +804,27 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 4.1 Docker compose run exits 0
-- [x] 4.2 Secret scan clean on `apps/prompt-optimization-loop/`
-- [x] 4.3 Lint passes
+- [x] 4.1 Docker compose run exits 0 — 77d0024
+- [x] 4.2 Secret scan clean on `apps/prompt-optimization-loop/` — 77d0024
+- [x] 4.3 Lint passes — 77d0024
 
 #### Manual
 
-- [x] 4.4 README explains prompt optimization loop with sample CSV
-- [x] 4.5 Bilingual EN/PL sections present
+- [x] 4.4 README explains prompt optimization loop with sample CSV — 77d0024
+- [x] 4.5 Bilingual EN/PL sections present — 77d0024
 
 ### Phase 5: Log Triage Agent
 
 #### Automated
 
-- [ ] 5.1 Docker compose startup exits 0 against hub-mock
-- [ ] 5.2 Secret scan clean
-- [ ] 5.3 Lint passes
+- [x] 5.1 Docker compose startup exits 0 against hub-mock
+- [x] 5.2 Secret scan clean
+- [x] 5.3 Lint passes
 
 #### Manual
 
-- [ ] 5.4 Function-calling flow demonstrable with sample log fixture
-- [ ] 5.5 Bilingual README under 5-minute read
+- [x] 5.4 Function-calling flow demonstrable with sample log fixture
+- [x] 5.5 Bilingual README under 5-minute read
 
 ### Phase 6: Logistics Chat API
 
