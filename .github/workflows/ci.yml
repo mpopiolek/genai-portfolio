@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  gitleaks:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  docker-compose-config:
+    name: Docker Compose validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate docker-compose.yml files under apps/
+        run: |
+          found=0
+          for f in apps/*/docker-compose.yml; do
+            if [ -f "$f" ]; then
+              found=1
+              echo "Validating $f"
+              docker compose -f "$f" config > /dev/null
+            fi
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "No apps/*/docker-compose.yml files yet — skipping gracefully"
+          fi
+
+  lint:
+    name: Turbo lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+      - run: npm ci
+      - run: npx turbo run lint
