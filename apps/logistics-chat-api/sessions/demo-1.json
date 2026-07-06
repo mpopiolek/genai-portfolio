@@ -1,0 +1,26 @@
+{
+  "sessionID": "demo-1",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Sprawdz status paczki PKG12345678",
+      "timestamp": "2026-07-06T20:54:43.583451"
+    },
+    {
+      "role": "assistant",
+      "content": "Paczka PKG12345678 jest w tranzycie. Ostatnia lokalizacja: WRK1001PL.",
+      "timestamp": "2026-07-06T20:54:43.583889"
+    },
+    {
+      "role": "user",
+      "content": "Sprawdz status paczki PKG12345678",
+      "timestamp": "2026-07-06T20:58:53.996571"
+    },
+    {
+      "role": "assistant",
+      "content": "Paczka PKG12345678 jest w tranzycie. Ostatnia lokalizacja: WRK1001PL.",
+      "timestamp": "2026-07-06T20:58:53.997028"
+    }
+  ],
+  "created_at": "2026-07-06T20:54:42.542831"
+}

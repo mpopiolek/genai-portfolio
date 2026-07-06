@@ -149,19 +149,31 @@ def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
     return last
 
 
+def _resolve_body_action_rules(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
+    """Match rules on top-level POST body fields (e.g. action for /api/packages)."""
+    for rule in fixture.get("rules", []):
+        action = rule.get("action_equals")
+        if action and body.get("action") == action:
+            return rule.get("response", {})
+
+        body_match = rule.get("body_match", {})
+        if body_match and all(body.get(key) == value for key, value in body_match.items()):
+            return rule.get("response", {})
+
+        if rule.get("body_default"):
+            return rule.get("response", {})
+
+    return fixture.get("default_response", {"message": "OK"})
+
+
 def _resolve_route_response(route: str, body: dict[str, Any]) -> dict[str, Any]:
     """Generic handler for /api/packages and /api/shell using action-based fixtures."""
-    action = body.get("action", "")
-    task = body.get("task", action or route)
-    fixture = FIXTURES_BY_TASK.get(task)
-    if fixture and fixture.get("_route") == route:
-        return _resolve_verify_response(body)
-
-    # Scan fixtures in route dir for action match
     route_dir = FIXTURES_DIR / route
     if route_dir.exists():
         for fixture_file in sorted(route_dir.glob("*.json")):
             data = json.loads(fixture_file.read_text(encoding="utf-8"))
+            if data.get("rules"):
+                return _resolve_body_action_rules(body, data)
             for turn in data.get("turns", []):
                 match = turn.get("request_match", {})
                 if _match_request(body, match):

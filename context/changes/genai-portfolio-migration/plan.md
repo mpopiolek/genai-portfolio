@@ -817,27 +817,27 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [x] 5.1 Docker compose startup exits 0 against hub-mock
-- [x] 5.2 Secret scan clean
-- [x] 5.3 Lint passes
+- [x] 5.1 Docker compose startup exits 0 against hub-mock — d7684ce
+- [x] 5.2 Secret scan clean — d7684ce
+- [x] 5.3 Lint passes — d7684ce
 
 #### Manual
 
-- [x] 5.4 Function-calling flow demonstrable with sample log fixture
-- [x] 5.5 Bilingual README under 5-minute read
+- [x] 5.4 Function-calling flow demonstrable with sample log fixture — d7684ce
+- [x] 5.5 Bilingual README under 5-minute read — d7684ce
 
 ### Phase 6: Logistics Chat API
 
 #### Automated
 
-- [ ] 6.1 Docker compose starts Flask server; sample POST returns 200
-- [ ] 6.2 No plaintext keys from Zad_3 notes patterns
-- [ ] 6.3 CI secret scan passes
+- [x] 6.1 Docker compose starts Flask server; sample POST returns 200
+- [x] 6.2 No plaintext keys from Zad_3 notes patterns
+- [x] 6.3 CI secret scan passes
 
 #### Manual
 
-- [ ] 6.4 README documents Flask architecture and FastAPI future path
-- [ ] 6.5 Session state does not persist secrets to git
+- [x] 6.4 README documents Flask architecture and FastAPI future path
+- [x] 6.5 Session state does not persist secrets to git
 
 ### Phase 7: Document-to-JSON ETL
 

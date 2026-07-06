@@ -1,0 +1,25 @@
+services:
+  hub-mock:
+    build: ../../packages/hub-mock
+    ports:
+      - "8080:8080"
+    environment:
+      HUB_MOCK_PORT: "8080"
+
+  logistics-chat-api:
+    build: .
+    depends_on:
+      - hub-mock
+    ports:
+      - "${FLASK_PORT:-5000}:5000"
+    environment:
+      AIDEVS_API_URL: http://hub-mock:8080/api/packages
+      AIDEVS_API_KEY: ${AIDEVS_API_KEY:-demo-key}
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY:-}
+      OPENROUTER_API_URL: ${OPENROUTER_API_URL:-https://openrouter.ai/api/v1}
+      FLASK_PORT: "5000"
+      SESSIONS_DIR: sessions
+      DEMO_MODE: ${DEMO_MODE:-1}
+    env_file:
+      - path: .env
+        required: false

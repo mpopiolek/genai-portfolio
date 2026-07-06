@@ -1,0 +1,26 @@
+{
+  "agent": "logistics-chat-api",
+  "description": "Package hub API responses for check and redirect actions",
+  "rules": [
+    {
+      "action_equals": "check",
+      "response": {
+        "message": "Package located",
+        "location": "WRK1001PL",
+        "status": "in_transit"
+      }
+    },
+    {
+      "action_equals": "redirect",
+      "response": {
+        "message": "Package redirected successfully",
+        "destination": "PWR6132PL",
+        "ok": true
+      }
+    },
+    {
+      "body_default": true,
+      "response": {"message": "Unknown packages action"}
+    }
+  ]
+}
