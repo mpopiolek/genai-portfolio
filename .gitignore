@@ -42,6 +42,7 @@ yarn-error.log*
 __pycache__/
 *.pyc
 *.log
+!apps/*/fixtures/*.log
 audio_logs/
 *.mp3
 .mypy_cache/
