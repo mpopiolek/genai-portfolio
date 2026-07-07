@@ -904,13 +904,13 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [ ] 12.1 Docker compose run exits 0
-- [ ] 12.2 Secret scan clean
+- [x] 12.1 Docker compose run exits 0 — ecc79f8
+- [x] 12.2 Secret scan clean — ecc79f8
 
 #### Manual
 
-- [ ] 12.3 Multimodal flow demonstrable
-- [ ] 12.4 Bilingual README complete
+- [x] 12.3 Multimodal flow demonstrable — ecc79f8
+- [x] 12.4 Bilingual README complete — ecc79f8
 
 ### Phase 13: Root README & Pre-Publication Verification
 
