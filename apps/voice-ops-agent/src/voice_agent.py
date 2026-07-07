@@ -364,7 +364,10 @@ class PhoneCallAgent:
         self.attempt = attempt
 
     def send_turn(self, text: str, label: str) -> tuple[dict, str]:
-        log_agent(text)
+        if "haslo" in label or "password" in label.lower():
+            log_agent(f"[redacted — {label}]")
+        else:
+            log_agent(text)
         audio_out = text_to_mp3_base64(text, label=f"a{self.attempt}_{label}")
         response = send_audio_to_api(audio_out)
 

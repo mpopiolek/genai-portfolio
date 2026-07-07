@@ -86,10 +86,17 @@ Expected first response:
 {"message": "Centrala monitoringu dróg, słucham."}
 ```
 
-## Route registry (seed fixtures)
+## Route registry (all agents)
 
 | Agent | Route dir | Task | Fixture file |
 |-------|-----------|------|--------------|
 | voice-ops-agent | `verify` | `phonecall` | `fixtures/verify/voice-ops-agent.json` |
-
-Remaining 9 agents: add fixtures in Phases 3–12 following the contract above.
+| prompt-optimization-loop | `verify` | `categorize` | `fixtures/verify/prompt-optimization-loop.json` |
+| log-triage-agent | `verify` | `failure` | `fixtures/verify/log-triage-agent.json` |
+| logistics-chat-api | `api-packages` | — | `fixtures/api-packages/logistics-chat-api.json` |
+| document-to-json-etl | `verify` | `filesystem` | `fixtures/verify/document-to-json-etl.json` |
+| shell-exploration-agent | `verify` | `shellaccess` | `fixtures/verify/shell-exploration-agent.json` |
+| secure-command-agent | `api-shell` | — | `fixtures/api-shell/secure-command-agent.json` |
+| multi-phase-planning-agent | `verify` + `api-*` | `savethem` | `fixtures/verify/multi-phase-planning-agent.json` (+ tool routes) |
+| async-planning-agent | `verify` | `windpower` | `fixtures/verify/async-planning-agent.json` |
+| multimodal-intel-pipeline | `verify` | `radiomonitoring` | `fixtures/verify/multimodal-intel-pipeline.json` |

@@ -20,6 +20,12 @@ OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_API_URL = os.getenv("OPENROUTER_API_URL", "https://openrouter.ai/api/v1").rstrip("/")
 DEMO_MODE = os.getenv("DEMO_MODE", "1").lower() in ("1", "true", "yes")
 
+HARD_BLOCKED_PATHS = ("/etc", "/root", "/proc")
+SENSITIVE_FILENAME_PATTERNS = re.compile(
+    r"(^|/)\.env(\b|$)|\.secret|\.passwd|\.password|shadow|sudoers",
+    re.IGNORECASE,
+)
+
 BLOCKED_PATTERNS = [
     r"rm\s+-rf",
     r"mkfs",
@@ -50,6 +56,14 @@ DEMO_FINAL = {
 
 
 def is_command_allowed(cmd: str) -> tuple[bool, str]:
+    for blocked in HARD_BLOCKED_PATHS:
+        if re.search(r"(?<!\w)" + re.escape(blocked) + r"(?!\w)", cmd):
+            return False, f"Blocked by guardrail (path: {blocked})"
+
+    match = SENSITIVE_FILENAME_PATTERNS.search(cmd)
+    if match:
+        return False, f"Blocked by guardrail (sensitive path: {match.group()})"
+
     for pattern in BLOCKED_PATTERNS:
         if re.search(pattern, cmd, re.IGNORECASE):
             return False, f"Blocked by guardrail (pattern: {pattern})"
@@ -100,12 +114,12 @@ def extract_final(text: str) -> dict | None:
 
 
 def demonstrate_guardrails() -> None:
-    dangerous = "rm -rf /"
-    allowed, reason = is_command_allowed(dangerous)
-    print(f"Guardrail test: '{dangerous}' -> allowed={allowed}")
-    if allowed:
-        raise RuntimeError("Guardrail failed to block dangerous command")
-    print(f"  Reason: {reason}")
+    for dangerous in ("rm -rf /", "cat /etc/passwd"):
+        allowed, reason = is_command_allowed(dangerous)
+        print(f"Guardrail test: '{dangerous}' -> allowed={allowed}")
+        if allowed:
+            raise RuntimeError(f"Guardrail failed to block dangerous command: {dangerous}")
+        print(f"  Reason: {reason}")
 
 
 def run_demo() -> dict:

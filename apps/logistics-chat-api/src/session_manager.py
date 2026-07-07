@@ -1,18 +1,29 @@
 import json
+import re
 from datetime import datetime
 from pathlib import Path
+
+_SESSION_ID_PATTERN = re.compile(r"^[A-Za-z0-9_-]+$")
 
 
 class SessionManager:
     """Operator session persistence on disk (excluded from git via .gitignore)."""
 
     def __init__(self, sessions_dir="sessions"):
-        self.sessions_dir = Path(sessions_dir)
+        self.sessions_dir = Path(sessions_dir).resolve()
         self.sessions_dir.mkdir(exist_ok=True)
         self._memory_cache = {}
 
+    def _validate_session_id(self, session_id):
+        if not session_id or not _SESSION_ID_PATTERN.fullmatch(session_id):
+            raise ValueError("Invalid session ID")
+
     def _get_session_path(self, session_id):
-        return self.sessions_dir / f"{session_id}.json"
+        self._validate_session_id(session_id)
+        path = (self.sessions_dir / f"{session_id}.json").resolve()
+        if not path.is_relative_to(self.sessions_dir):
+            raise ValueError("Invalid session ID")
+        return path
 
     def get_session(self, session_id):
         if session_id in self._memory_cache:

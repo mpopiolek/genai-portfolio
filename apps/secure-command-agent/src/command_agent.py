@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Secure Command Agent — restricted VM shell access with guardrails and ban learning.
+Secure Command Agent — restricted VM shell access with guardrails and .gitignore path learning.
 """
 
 from __future__ import annotations

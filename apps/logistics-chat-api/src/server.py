@@ -73,7 +73,8 @@ def list_sessions():
 
 if __name__ == "__main__":
     port = int(os.getenv("FLASK_PORT", "5000"))
-    print(f"Logistics server starting on http://localhost:{port}")
-    print(f"POST http://localhost:{port}/chat")
-    print(f"GET  http://localhost:{port}/health")
-    app.run(debug=False, host="0.0.0.0", port=port)
+    host = os.getenv("FLASK_HOST", "127.0.0.1")
+    print(f"Logistics server starting on http://{host}:{port}")
+    print(f"POST http://{host}:{port}/chat")
+    print(f"GET  http://{host}:{port}/health")
+    app.run(debug=False, host=host, port=port)
