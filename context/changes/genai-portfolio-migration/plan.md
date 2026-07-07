@@ -879,13 +879,13 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [ ] 10.1 Docker compose run exits 0
-- [ ] 10.2 Secret scan clean
+- [x] 10.1 Docker compose run exits 0 — b13e652
+- [x] 10.2 Secret scan clean — b13e652
 
 #### Manual
 
-- [ ] 10.3 Multi-phase flow visible in logs/output
-- [ ] 10.4 Bilingual README explains orchestration vs async planning
+- [x] 10.3 Multi-phase flow visible in logs/output — b13e652
+- [x] 10.4 Bilingual README explains orchestration vs async planning — b13e652
 
 ### Phase 11: Async Planning Agent
 
