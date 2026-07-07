@@ -17,6 +17,7 @@ _turn_counters: dict[str, int] = {}
 # Per-task classification count since last reset (rule-based fixtures)
 _classify_counters: dict[str, int] = {}
 _windpower_queues: dict[str, list[dict[str, Any]]] = {}
+_radiomonitoring_listen_idx: dict[str, int] = {}
 
 
 def _load_fixtures() -> dict[str, dict[str, Any]]:
@@ -217,6 +218,36 @@ def _resolve_windpower(body: dict[str, Any], fixture: dict[str, Any]) -> dict[st
     return {"code": -1, "message": f"Unknown windpower action {action}"}
 
 
+def _resolve_radiomonitoring(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
+    """Sequential listen signals for radiomonitoring portfolio demo."""
+    answer = body.get("answer", {})
+    if not isinstance(answer, dict):
+        answer = {}
+
+    action = answer.get("action", "")
+    queue_key = body.get("apikey", "default")
+
+    if action == "start":
+        _radiomonitoring_listen_idx[queue_key] = 0
+        return fixture.get("action_responses", {}).get("start", {"code": 0, "message": "Session started"})
+
+    if action == "listen":
+        sequence = fixture.get("listen_sequence", [])
+        idx = _radiomonitoring_listen_idx.get(queue_key, 0)
+        if idx >= len(sequence):
+            return sequence[-1] if sequence else {"code": 101, "message": "Broadcast ended"}
+        response = dict(sequence[idx])
+        _radiomonitoring_listen_idx[queue_key] = idx + 1
+        return response
+
+    if action == "transmit":
+        return fixture.get("action_responses", {}).get(
+            "transmit", {"code": 0, "message": "Report accepted. {FLG:multimodal-demo}"}
+        )
+
+    return {"code": -1, "message": f"Unknown radiomonitoring action {action}"}
+
+
 def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
     task = body.get("task", "")
     fixture = FIXTURES_BY_TASK.get(task)
@@ -225,6 +256,9 @@ def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
 
     if task == "windpower" and fixture.get("queue_templates"):
         return _resolve_windpower(body, fixture)
+
+    if task == "radiomonitoring" and fixture.get("listen_sequence"):
+        return _resolve_radiomonitoring(body, fixture)
 
     if isinstance(body.get("answer"), list) and fixture.get("rules"):
         return _resolve_list_answer_rules(body, fixture)

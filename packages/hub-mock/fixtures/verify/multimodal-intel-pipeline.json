@@ -1,0 +1,27 @@
+{
+  "task": "radiomonitoring",
+  "agent": "multimodal-intel-pipeline",
+  "description": "Sequential radio listen signals for portfolio multimodal demo",
+  "action_responses": {
+    "start": {"code": 0, "message": "Listening session started"},
+    "transmit": {"code": 0, "message": "Intelligence report accepted. {FLG:multimodal-demo}"}
+  },
+  "listen_sequence": [
+    {
+      "code": 100,
+      "message": "Signal received",
+      "transcription": "Alpha sector warehouse district. City Krakow, area 326.55 km2, twelve warehouses, contact 48123456789."
+    },
+    {
+      "code": 100,
+      "message": "Attachment signal",
+      "meta": "application/json",
+      "filesize": 128,
+      "attachment": "eyJjaXR5X25hbWUiOiAiS3Jha293IiwgImFyZWEiOiAzMjYuNTUsICJ3YXJlaG91c2VzX2NvdW50IjogMTIsICJwaG9uZV9udW1iZXIiOiAiNDgxMjM0NTY3ODkifQ=="
+    },
+    {
+      "code": 101,
+      "message": "Broadcast ended"
+    }
+  ]
+}

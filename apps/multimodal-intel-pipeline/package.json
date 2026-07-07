@@ -1,0 +1,9 @@
+{
+  "name": "multimodal-intel-pipeline",
+  "private": true,
+  "scripts": {
+    "dev": "docker compose up",
+    "build": "docker compose build",
+    "lint": "echo ok"
+  }
+}
