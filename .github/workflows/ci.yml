@@ -22,18 +22,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate docker-compose.yml files under apps/
+      - name: Validate hub-mock and all agent docker-compose.yml files
         run: |
-          found=0
+          set -euo pipefail
+          echo "Validating packages/hub-mock/docker-compose.yml"
+          docker compose -f packages/hub-mock/docker-compose.yml config > /dev/null
+          count=0
           for f in apps/*/docker-compose.yml; do
             if [ -f "$f" ]; then
-              found=1
+              count=$((count + 1))
               echo "Validating $f"
               docker compose -f "$f" config > /dev/null
             fi
           done
-          if [ "$found" -eq 0 ]; then
-            echo "No apps/*/docker-compose.yml files yet — skipping gracefully"
+          echo "Validated $count agent compose files"
+          if [ "$count" -lt 10 ]; then
+            echo "Expected at least 10 apps/*/docker-compose.yml files, found $count"
+            exit 1
           fi
 
   lint:
