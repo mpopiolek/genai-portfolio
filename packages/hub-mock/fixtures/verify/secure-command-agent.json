@@ -1,0 +1,19 @@
+{
+  "task": "firmware",
+  "agent": "secure-command-agent",
+  "description": "Verify firmware confirmation code for portfolio demo",
+  "rules": [
+    {
+      "confirmation_contains": "ECCS",
+      "response": {
+        "message": "Firmware verified. {FLG:command-demo}"
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "message": "Invalid confirmation code"
+      }
+    }
+  ]
+}

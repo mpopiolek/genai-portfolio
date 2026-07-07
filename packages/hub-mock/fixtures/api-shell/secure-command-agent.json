@@ -1,0 +1,48 @@
+{
+  "agent": "secure-command-agent",
+  "description": "Mock restricted VM shell for firmware portfolio demo",
+  "rules": [
+    {
+      "cmd_equals": "help",
+      "response": {
+        "output": "Available commands: ls, cat, cd, pwd, help. Binary: /opt/firmware/cooler/cooler.bin"
+      }
+    },
+    {
+      "cmd_contains": "pwd",
+      "response": {
+        "output": "/home/user"
+      }
+    },
+    {
+      "cmd_contains": "ls",
+      "response": {
+        "output": "README.txt  cooler.bin  .gitignore"
+      }
+    },
+    {
+      "cmd_contains": "README",
+      "response": {
+        "output": "Firmware cooler utility. Password: cool-demo-pass"
+      }
+    },
+    {
+      "cmd_contains": "cooler.bin",
+      "response": {
+        "output": "Confirmation code: ECCS-DEMO1234567890abcdef"
+      }
+    },
+    {
+      "cmd_contains": ".gitignore",
+      "response": {
+        "output": ".env\nsecrets/\n*.key"
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "output": "command executed (mock)"
+      }
+    }
+  ]
+}

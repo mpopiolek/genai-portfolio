@@ -73,7 +73,10 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
     search_text = logs_text if logs_text else prompt
 
     cmd_text = answer.get("cmd", "") if isinstance(answer, dict) else ""
-    if cmd_text:
+    confirmation = answer.get("confirmation", "")
+    if confirmation:
+        search_text = confirmation
+    elif cmd_text:
         search_text = cmd_text
 
     if isinstance(answer, list):
@@ -96,6 +99,11 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
 
         action_eq = rule.get("action_equals")
         if action_eq and isinstance(answer, dict) and answer.get("action") == action_eq:
+            matched_rule = rule
+            break
+
+        confirmation_contains = rule.get("confirmation_contains")
+        if confirmation_contains and confirmation_contains.lower() in search_text.lower():
             matched_rule = rule
             break
 
@@ -170,10 +178,19 @@ def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
 
 
 def _resolve_body_action_rules(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
-    """Match rules on top-level POST body fields (e.g. action for /api/packages)."""
+    """Match rules on top-level POST body fields (e.g. action, cmd for /api/*)."""
+    cmd_text = body.get("cmd", "")
     for rule in fixture.get("rules", []):
         action = rule.get("action_equals")
         if action and body.get("action") == action:
+            return rule.get("response", {})
+
+        cmd_equals = rule.get("cmd_equals")
+        if cmd_equals and cmd_text.strip() == cmd_equals:
+            return rule.get("response", {})
+
+        cmd_contains = rule.get("cmd_contains")
+        if cmd_contains and cmd_text and cmd_contains.lower() in cmd_text.lower():
             return rule.get("response", {})
 
         body_match = rule.get("body_match", {})
