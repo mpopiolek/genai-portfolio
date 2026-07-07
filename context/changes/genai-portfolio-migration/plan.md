@@ -916,13 +916,13 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [ ] 13.1 `turbo run lint` passes across all workspace packages
-- [ ] 13.2 CI workflow green on full repo
-- [ ] 13.3 `docker compose config` succeeds for all 10 agents
-- [ ] 13.4 No committed `.env` files (except `.env.example`)
+- [x] 13.1 `turbo run lint` passes across all workspace packages — a65a313
+- [x] 13.2 CI workflow green on full repo — a65a313
+- [x] 13.3 `docker compose config` succeeds for all 10 agents — a65a313
+- [x] 13.4 No committed `.env` files (except `.env.example`) — a65a313
 
 #### Manual
 
-- [ ] 13.5 Root README competency table complete for all 10 agents
-- [ ] 13.6 Pre-publish checklist executed; key rotation documented
-- [ ] 13.7 Clone-fresh test: 3 agents run successfully
+- [x] 13.5 Root README competency table complete for all 10 agents — a65a313
+- [x] 13.6 Pre-publish checklist executed; key rotation documented — a65a313
+- [x] 13.7 Clone-fresh test: 3 agents run successfully — a65a313
