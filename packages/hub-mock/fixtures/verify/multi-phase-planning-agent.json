@@ -1,0 +1,22 @@
+{
+  "task": "savethem",
+  "agent": "multi-phase-planning-agent",
+  "description": "Verify savethem route array for portfolio demo",
+  "rules": [
+    {
+      "route_starts_with": ["rocket", "horse", "car", "walk"],
+      "route_min_length": 3,
+      "response": {
+        "code": 0,
+        "message": "Route accepted. {FLG:planning-demo}"
+      }
+    },
+    {
+      "list_default": true,
+      "response": {
+        "code": -1,
+        "message": "Route too short or invalid transport"
+      }
+    }
+  ]
+}

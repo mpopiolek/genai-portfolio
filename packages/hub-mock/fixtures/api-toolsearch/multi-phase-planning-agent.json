@@ -1,0 +1,22 @@
+{
+  "agent": "multi-phase-planning-agent",
+  "description": "Tool discovery for savethem portfolio demo",
+  "rules": [
+    {
+      "query_contains": "map",
+      "response": {
+        "tools": [
+          {"name": "maps", "url": "/api/maps"},
+          {"name": "wehicles", "url": "/api/wehicles"},
+          {"name": "books", "url": "/api/books"}
+        ]
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "tools": [{"name": "maps", "url": "/api/maps"}]
+      }
+    }
+  ]
+}

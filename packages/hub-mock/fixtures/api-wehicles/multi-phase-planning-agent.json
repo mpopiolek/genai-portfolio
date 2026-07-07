@@ -1,0 +1,22 @@
+{
+  "agent": "multi-phase-planning-agent",
+  "description": "Vehicle stats for portfolio demo",
+  "rules": [
+    {
+      "query_contains": "vehicle",
+      "response": {
+        "vehicles": {
+          "rocket": {"fuel_per_move": 1, "food_per_move": 0.1},
+          "horse": {"fuel_per_move": 0, "food_per_move": 1.6},
+          "car": {"fuel_per_move": 0.7, "food_per_move": 1}
+        }
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "vehicles": ["rocket", "horse", "car"]
+      }
+    }
+  ]
+}

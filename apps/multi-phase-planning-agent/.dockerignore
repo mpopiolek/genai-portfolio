@@ -1,0 +1,7 @@
+.env
+.env.local
+__pycache__/
+.venv/
+*.log
+raw_world_data.txt
+world_info.json

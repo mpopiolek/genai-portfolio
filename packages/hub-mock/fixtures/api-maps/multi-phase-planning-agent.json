@@ -1,0 +1,20 @@
+{
+  "agent": "multi-phase-planning-agent",
+  "description": "Map API responses for portfolio demo",
+  "rules": [
+    {
+      "query_contains": "map",
+      "response": {
+        "legend": "S=start G=goal R=rock W=water T=tree .=empty",
+        "grid_size": "10x10",
+        "note": "Start row 7 col 0, Goal row 4 col 8"
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "terrain": "mixed grid with water on east edge"
+      }
+    }
+  ]
+}

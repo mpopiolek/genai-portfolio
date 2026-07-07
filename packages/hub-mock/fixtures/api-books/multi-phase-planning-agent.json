@@ -1,0 +1,19 @@
+{
+  "agent": "multi-phase-planning-agent",
+  "description": "Movement rules for portfolio demo",
+  "rules": [
+    {
+      "query_contains": "movement",
+      "response": {
+        "operations": ["up", "down", "left", "right", "dismount", "rocket", "horse", "walk", "car"],
+        "resources": {"food": 10, "fuel": 10}
+      }
+    },
+    {
+      "body_default": true,
+      "response": {
+        "notes": "Use dismount to leave vehicle before entering goal cell"
+      }
+    }
+  ]
+}

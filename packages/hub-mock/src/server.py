@@ -154,6 +154,9 @@ def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
     if not fixture:
         return {"error": f"No fixture for task '{task}'", "code": 404}
 
+    if isinstance(body.get("answer"), list) and fixture.get("rules"):
+        return _resolve_list_answer_rules(body, fixture)
+
     if fixture.get("rules"):
         return _resolve_rule_based(body, fixture)
 
@@ -180,9 +183,14 @@ def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
 def _resolve_body_action_rules(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
     """Match rules on top-level POST body fields (e.g. action, cmd for /api/*)."""
     cmd_text = body.get("cmd", "")
+    query_text = body.get("query", "")
     for rule in fixture.get("rules", []):
         action = rule.get("action_equals")
         if action and body.get("action") == action:
+            return rule.get("response", {})
+
+        query_contains = rule.get("query_contains")
+        if query_contains and query_text and query_contains.lower() in query_text.lower():
             return rule.get("response", {})
 
         cmd_equals = rule.get("cmd_equals")
@@ -203,8 +211,33 @@ def _resolve_body_action_rules(body: dict[str, Any], fixture: dict[str, Any]) ->
     return fixture.get("default_response", {"message": "OK"})
 
 
+def _resolve_list_answer_rules(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
+    """Match verify rules when answer is a JSON list (e.g. savethem route)."""
+    answer = body.get("answer")
+    if not isinstance(answer, list):
+        return fixture.get("default_response", {"code": -1, "message": "Expected list answer"})
+
+    matched: dict[str, Any] | None = None
+    for rule in fixture.get("rules", []):
+        route_starts_with = rule.get("route_starts_with")
+        route_min_length = rule.get("route_min_length")
+        if route_min_length is not None and len(answer) < route_min_length:
+            continue
+        if route_starts_with and (not answer or answer[0] not in route_starts_with):
+            continue
+        if route_starts_with or route_min_length is not None:
+            matched = rule
+            break
+        if rule.get("list_default"):
+            matched = rule
+
+    if not matched:
+        return fixture.get("default_response", {"code": -1, "message": "No matching route rule"})
+    return matched.get("response", {"message": "OK"})
+
+
 def _resolve_route_response(route: str, body: dict[str, Any]) -> dict[str, Any]:
-    """Generic handler for /api/packages and /api/shell using action-based fixtures."""
+    """Generic handler for /api/* routes using action- or query-based fixtures."""
     route_dir = FIXTURES_DIR / route
     if route_dir.exists():
         for fixture_file in sorted(route_dir.glob("*.json")):
@@ -253,6 +286,9 @@ class HubMockHandler(BaseHTTPRequestHandler):
             result = _resolve_route_response("api-packages", body)
         elif path == "/api/shell":
             result = _resolve_route_response("api-shell", body)
+        elif path.startswith("/api/"):
+            route_key = path.lstrip("/").replace("/", "-")
+            result = _resolve_route_response(route_key, body)
         else:
             self._send_json(404, {"error": f"Unknown route {path}"})
             return
