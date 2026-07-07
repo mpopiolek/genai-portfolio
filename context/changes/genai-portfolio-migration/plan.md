@@ -867,13 +867,13 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [ ] 9.1 Docker compose run exits 0
-- [ ] 9.2 No content from excluded log files in repo
+- [x] 9.1 Docker compose run exits 0 — 5bfdda8
+- [x] 9.2 No content from excluded log files in repo — 5bfdda8
 
 #### Manual
 
-- [ ] 9.3 Guardrail behavior demonstrable
-- [ ] 9.4 Bilingual README complete
+- [x] 9.3 Guardrail behavior demonstrable — 5bfdda8
+- [x] 9.4 Bilingual README complete — 5bfdda8
 
 ### Phase 10: Multi-Phase Planning Agent
 
