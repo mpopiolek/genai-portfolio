@@ -1,9 +1,9 @@
 ---
 change_id: genai-portfolio-migration
 title: Genai portfolio migration
-status: implementing
+status: complete
 created: 2026-07-06
-updated: 2026-07-06
+updated: 2026-07-07
 archived_at: null
 ---
 
