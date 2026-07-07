@@ -16,6 +16,7 @@ PORT = int(os.getenv("HUB_MOCK_PORT", "8080"))
 _turn_counters: dict[str, int] = {}
 # Per-task classification count since last reset (rule-based fixtures)
 _classify_counters: dict[str, int] = {}
+_windpower_queues: dict[str, list[dict[str, Any]]] = {}
 
 
 def _load_fixtures() -> dict[str, dict[str, Any]]:
@@ -148,11 +149,82 @@ def _resolve_rule_based(body: dict[str, Any], fixture: dict[str, Any]) -> dict[s
     return response
 
 
+def _windpower_queue_key(body: dict[str, Any]) -> str:
+    return body.get("apikey", "default")
+
+
+def _resolve_windpower(body: dict[str, Any], fixture: dict[str, Any]) -> dict[str, Any]:
+    """Stateful windpower mock: queued getResult payloads after async get/unlock actions."""
+    answer = body.get("answer", {})
+    if not isinstance(answer, dict):
+        answer = {}
+
+    action = answer.get("action", "")
+    queue_key = _windpower_queue_key(body)
+    queue = _windpower_queues.setdefault(queue_key, [])
+
+    if action == "start":
+        _windpower_queues[queue_key] = []
+        return fixture.get("action_responses", {}).get("start", {"code": 0, "sessionTimeout": 120})
+
+    if action == "getResult":
+        if not queue:
+            return {"code": -1, "message": "No queued result yet"}
+        return queue.pop(0)
+
+    if action == "get":
+        param = answer.get("param", "")
+        direct = fixture.get("action_responses", {}).get(f"get:{param}")
+        if direct:
+            return direct
+
+        template = fixture.get("queue_templates", {}).get(param)
+        if template:
+            queue.append(dict(template))
+            return {"code": 0, "message": f"Queued {param}"}
+
+        return {"code": -1, "message": f"Unknown get param {param}"}
+
+    if action == "unlockCodeGenerator":
+        code = (
+            f"DEMO-{answer.get('startDate', 'date')}-"
+            f"{answer.get('startHour', 'hour')}-{answer.get('pitchAngle', 0)}"
+        )
+        queue.append(
+            {
+                "sourceFunction": "unlockCodeGenerator",
+                "unlockCode": code,
+                "signedParams": {
+                    "startDate": answer.get("startDate"),
+                    "startHour": answer.get("startHour"),
+                    "windMs": answer.get("windMs"),
+                    "pitchAngle": answer.get("pitchAngle"),
+                },
+            }
+        )
+        return {"code": 0, "message": "Unlock queued"}
+
+    if action == "config":
+        return fixture.get("action_responses", {}).get(
+            "config", {"code": 0, "message": "Configuration accepted"}
+        )
+
+    if action == "done":
+        return fixture.get("action_responses", {}).get(
+            "done", {"code": 0, "message": "Complete. {FLG:async-demo}"}
+        )
+
+    return {"code": -1, "message": f"Unknown windpower action {action}"}
+
+
 def _resolve_verify_response(body: dict[str, Any]) -> dict[str, Any]:
     task = body.get("task", "")
     fixture = FIXTURES_BY_TASK.get(task)
     if not fixture:
         return {"error": f"No fixture for task '{task}'", "code": 404}
+
+    if task == "windpower" and fixture.get("queue_templates"):
+        return _resolve_windpower(body, fixture)
 
     if isinstance(body.get("answer"), list) and fixture.get("rules"):
         return _resolve_list_answer_rules(body, fixture)

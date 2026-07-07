@@ -1,0 +1,9 @@
+{
+  "name": "async-planning-agent",
+  "private": true,
+  "scripts": {
+    "dev": "docker compose up",
+    "build": "docker compose build",
+    "lint": "echo ok"
+  }
+}

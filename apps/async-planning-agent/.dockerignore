@@ -1,0 +1,6 @@
+.env
+.env.local
+__pycache__/
+.venv/
+*.log
+windpower_agent.log

@@ -1,0 +1,46 @@
+{
+  "task": "windpower",
+  "agent": "async-planning-agent",
+  "description": "Stateful windpower hub mock with async getResult queue",
+  "action_responses": {
+    "start": {"code": 0, "sessionTimeout": 120},
+    "get:documentation": {
+      "code": 0,
+      "ratedPowerKw": 14,
+      "safety": {"cutoffWindMs": 14, "minOperationalWindMs": 4},
+      "windPowerYieldPercent": [
+        {"windMs": 4, "yieldPercent": "10-20"},
+        {"windMs": 6, "yieldPercent": "30-40"},
+        {"windMs": 8, "yieldPercent": "50-60"},
+        {"windMs": 10, "yieldPercent": "70-80"},
+        {"windMs": 12, "yieldPercent": "85-95"}
+      ],
+      "pitchAngleYieldPercent": [
+        {"pitchAngleDeg": 0, "yieldPercent": "100"},
+        {"pitchAngleDeg": 90, "yieldPercent": "0"}
+      ]
+    },
+    "config": {"code": 0, "message": "Configuration stored"},
+    "done": {"code": 0, "message": "Wind schedule validated. {FLG:async-demo}"}
+  },
+  "queue_templates": {
+    "weather": {
+      "sourceFunction": "weatherForecast",
+      "forecast": [
+        {"timestamp": "2026-04-07 08:00:00", "windMs": 6.0},
+        {"timestamp": "2026-04-07 09:00:00", "windMs": 8.0},
+        {"timestamp": "2026-04-07 10:00:00", "windMs": 16.0},
+        {"timestamp": "2026-04-07 11:00:00", "windMs": 10.0},
+        {"timestamp": "2026-04-07 12:00:00", "windMs": 7.0}
+      ]
+    },
+    "powerplantcheck": {
+      "sourceFunction": "powerPlantCheck",
+      "powerDeficitKw": "3-4"
+    },
+    "turbinecheck": {
+      "sourceFunction": "turbineCheck",
+      "status": "ready"
+    }
+  }
+}
