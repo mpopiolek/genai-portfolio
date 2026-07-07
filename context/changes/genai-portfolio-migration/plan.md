@@ -891,14 +891,14 @@ Write root competency map (EN + PL), run final publication checklist, document m
 
 #### Automated
 
-- [ ] 11.1 Docker compose run exits 0
-- [ ] 11.2 Known leaked key prefix absent from agent folder
-- [ ] 11.3 Full CI gitleaks pass
+- [x] 11.1 Docker compose run exits 0 — a0702aa
+- [x] 11.2 Known leaked key prefix absent from agent folder — a0702aa
+- [x] 11.3 Full CI gitleaks pass — a0702aa
 
 #### Manual
 
-- [ ] 11.4 Async concurrency visible in agent logs
-- [ ] 11.5 Bilingual README complete
+- [x] 11.4 Async concurrency visible in agent logs — a0702aa
+- [x] 11.5 Bilingual README complete — a0702aa
 
 ### Phase 12: Multimodal Intel Pipeline
 
